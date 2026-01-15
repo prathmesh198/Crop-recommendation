@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Crop Recommendation System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <h1>🌱 Crop Recommendation System</h1>
+        <p>Enter soil nutrients and weather conditions to get the best crop suggestions</p>
+    </div>
+
+    <form action="/predict" method="post">
+
+        <div class="form-grid">
+
+            <div class="input-group">
+                <label>Nitrogen (N)</label>
+                <input type="number" name="N" min="0" max="140" required>
+            </div>
+
+            <div class="input-group">
+                <label>Phosphorus (P)</label>
+                <input type="number" name="P" min="5" max="145" required>
+            </div>
+
+            <div class="input-group">
+                <label>Potassium (K)</label>
+                <input type="number" name="K" min="5" max="205" required>
+            </div>
+
+            <div class="input-group">
+                <label>Temperature (°C)</label>
+                <input type="number" step="0.1" name="temperature" min="8" max="44" required>
+            </div>
+
+            <div class="input-group">
+                <label>Humidity (%)</label>
+                <input type="number" step="0.1" name="humidity" min="14" max="100" required>
+            </div>
+
+            <div class="input-group">
+                <label>pH Level</label>
+                <input type="number" step="0.1" name="ph" min="3.5" max="9.9" required>
+            </div>
+
+            <div class="input-group">
+                <label>Rainfall (mm)</label>
+                <input type="number" step="0.1" name="rainfall" min="20" max="300" required>
+            </div>
+
+        </div>
+
+        <button type="submit">Predict Best Crops</button>
+
+    </form>
+
+    {% if result %}
+    <div class="result">
+        <h2>🌾 Top 5 Recommended Crops</h2>
+        <ul>
+            {% for crop, prob in result %}
+                <li>
+                    <span>{{ crop }}</span>
+                    <span>{{ (prob*100)|round(2) }}%</span>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    <div class="footer">
+        © 2026 Crop Recommendation System | ML Based Project
+    </div>
+
+</div>
+
+</body>
+</html>
